@@ -1,0 +1,25 @@
+# Java compiled files
+*.class
+
+# IntelliJ
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Build output
+target/
+bin/
+out/
+
+# Local environment/configuration
+.env
