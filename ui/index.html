@@ -6,6 +6,7 @@
     <title>Pizza Database Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <header>
@@ -14,60 +15,71 @@
     </header>
 
     <main>
+
         <section class="cards">
+
             <div class="card">
                 <h2>Customers</h2>
-                <p id="customer-count">--</p>
+                <p id="customer-count">4</p>
             </div>
 
             <div class="card">
                 <h2>Orders</h2>
-                <p id="order-count">--</p>
+                <p id="order-count">11</p>
             </div>
 
             <div class="card">
-                <h2>Pizzas</h2>
-                <p id="pizza-count">--</p>
+                <h2>Revenue</h2>
+                <p id="revenue">$301.18</p>
             </div>
 
             <div class="card">
-                <h2>Toppings</h2>
-                <p id="topping-count">--</p>
+                <h2>Profit</h2>
+                <p id="profit">$234.07</p>
             </div>
+
         </section>
 
         <section class="analytics">
+
             <h2>Business Analytics</h2>
 
             <div class="analytics-grid">
+
                 <div class="panel">
                     <h3>Profit by Order Type</h3>
-                    <div id="order-type-results">
-                        Analytics coming soon...
-                    </div>
+                    <canvas id="orderTypeChart"></canvas>
                 </div>
 
                 <div class="panel">
                     <h3>Most Popular Toppings</h3>
-                    <div id="topping-results">
-                        Analytics coming soon...
-                    </div>
+                    <canvas id="toppingChart"></canvas>
                 </div>
 
                 <div class="panel">
                     <h3>Profit by Pizza</h3>
-                    <div id="pizza-results">
-                        Analytics coming soon...
+                    <canvas id="pizzaChart"></canvas>
+                </div>
+
+                <div class="panel">
+                    <h3>Inventory Levels</h3>
+                    <div id="inventory-results">
+                        Inventory analysis coming soon...
                     </div>
                 </div>
+
             </div>
+
         </section>
+
     </main>
 
     <footer>
         <p>Built with HTML, CSS, JavaScript, Java, MySQL & SQL</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
