@@ -1,106 +1,73 @@
-# CPSC 4620 Pizza Database
+# Pizza Ordering Database & Analytics
 
-A Java and MySQL database application developed for CPSC 4620 at Clemson University.
+A MySQL database for a pizza ordering business, with SQL reporting views that answer business questions about profit, order types, and topping popularity. Includes a Java/JDBC application layer.
 
-## Project Overview
+Built for CPSC 4620 (Database Systems) at Clemson University.
 
-This project is a pizza ordering and management system backed by a relational MySQL database. The application supports customer management, pizza and topping selection, order processing, discounts, inventory tracking, and business reporting.
+## Business Questions This Database Answers
 
-The Java application communicates with the MySQL database through JDBC and uses SQL queries, relational tables, and database views to manage and analyze the application's data.
+- Which order types (dine-in, pickup, delivery) are the most profitable?
+- Which pizzas generate the most profit?
+- Which toppings are the most popular?
 
-## Features
+## Key Findings
 
-* Customer management
-* Pizza ordering
-* Pickup, delivery, and dine-in orders
-* Pizza toppings and pricing
-* Discounts
-* Inventory tracking
-* Order completion tracking
-* Business and profit reports
-* SQL database views for reporting
+*Based on the sample data in this project.*
 
-## Technologies
+- **Profit by order type:** Delivery orders earned the most total profit ($99.39 across two months), followed by pickup ($90.34) and dine-in ($44.34). Across all order types, the business earned $234.07 in profit on $301.18 in order revenue.
+- **Profit by pizza:** Original-crust pizzas were the most profitable, led by the Large Original ($69.48, Jan 2025) and the XLarge Original ($68.80, Feb 2025). The Small Original was the least profitable at $5.53.
+- **Topping popularity:** Pepperoni and Regular Cheese tied as the most-used toppings (10 each), followed by Four Cheese Blend (7). Jalapenos were never ordered (0), which could flag them as a candidate to drop from the menu or promote.
 
-* **Java**
-* **MySQL**
-* **JDBC / MySQL Connector**
-* **SQL**
-* **Git & GitHub**
+## Database Design
 
-## Project Structure
+The database is organized around customers, orders, pizzas, toppings, discounts, pricing, and inventory. It uses primary and foreign keys to keep data consistent across tables, and supports pickup, delivery, and dine-in orders.
 
-```text
+## SQL Highlights
+
+- Relational design with primary and foreign keys
+- Joins and aggregations across multiple tables
+- Reporting views: `profitbyordertype`, `profitbypizza`, `toppingpopularity`
+- Inventory and order data management
+
+Run the views yourself:
+
+```sql
+SELECT * FROM profitbyordertype;
+SELECT * FROM profitbypizza;
+SELECT * FROM toppingpopularity;
+```
+
+## Repository Structure
+
+```
 cpsc4620-pizza-database/
+├── analytics/     # SQL analytics and reporting queries
 ├── database/
-│   ├── PizzaDB.sql
-│   └── PizzaDB_portfolio.sql
-├── lib/
-│   └── mysql-connector-j-9.6.0.jar
-├── src/
-│   └── cpsc4620/
-│       ├── Customer.java
-│       ├── DBConnector.java
-│       ├── DBNinja.java
-│       ├── DeliveryOrder.java
-│       ├── DineinOrder.java
-│       ├── Discount.java
-│       ├── Menu.java
-│       ├── Order.java
-│       ├── PickupOrder.java
-│       ├── Pizza.java
-│       └── Topping.java
+│   ├── PizzaDB.sql             # Original project database dump
+│   └── PizzaDB_portfolio.sql   # Cleaned, portfolio-ready database script
+├── lib/                        # MySQL JDBC connector
+├── src/cpsc4620/               # Java application (JDBC)
+├── ui/                         # Demo user interface (AI-assisted)
 ├── .gitignore
 └── README.md
 ```
 
-## Database
+## How to Run It
 
-The database is organized around customers, orders, pizzas, toppings, discounts, pricing, and inventory.
+1. Install MySQL and create a database: `CREATE DATABASE pizzadb;`
+2. Load the database: `mysql -u YOUR_USERNAME -p pizzadb < database/PizzaDB_portfolio.sql`
+3. Run the queries in the `analytics/` folder, or query the views listed above.
 
-The project also includes SQL views used for reporting:
+## Technologies
 
-* `profitbyordertype`
-* `profitbypizza`
-* `toppingpopularity`
+MySQL, SQL, Java, JDBC, Git & GitHub
 
-The `PizzaDB_portfolio.sql` file is provided as the portfolio-ready database script, while `PizzaDB.sql` preserves the original project database dump.
+## What I Did and Didn't Build
 
-## What This Project Demonstrates
+- **Written by me:** database schema, SQL queries, reporting views, analytics
+- **AI-assisted:** the UI in the `ui/` folder was generated with ChatGPT to demo the data
+- **Academic context:** built for Clemson's CPSC 4620. Original course materials are not included.
 
-This project gave me hands-on experience working across both application and database layers.
+## Testing Approach
 
-### SQL & Database
-
-* Relational database design
-* Primary and foreign keys
-* SQL queries
-* Database views
-* Joins and aggregations
-* Inventory and order data management
-* Connecting Java applications to MySQL
-
-### Java
-
-* Object-oriented programming
-* Classes and inheritance
-* ArrayLists and object collections
-* JDBC database connectivity
-* Console-based application development
-* Input validation and application logic
-
-### QA & Testing
-
-My current professional experience is in QA testing, so this project also provides a foundation for demonstrating how I approach software quality:
-
-* Identifying expected application behavior
-* Testing database-backed functionality
-* Reproducing issues
-* Documenting expected versus actual results
-* Thinking through different order and customer scenarios
-
-## Academic Context
-
-Developed as part of Clemson University's CPSC 4620 coursework.
-
-The original project requirements and academic materials are not included in this repository. The code has been organized here as a portfolio demonstration of my Java, SQL, database, and testing experience.
+With a QA background, I validated the database by checking expected vs. actual results across different order and customer scenarios, including edge cases like discounts and inventory changes.
