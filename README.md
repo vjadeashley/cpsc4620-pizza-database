@@ -1,73 +1,94 @@
-# Pizza Ordering Database & Analytics
+# Pizza Ordering Database
 
-A MySQL database for a pizza ordering business, with SQL reporting views that answer business questions about profit, order types, and topping popularity. Includes a Java/JDBC application layer.
+A Java and MySQL application for managing pizza orders, customers, discounts, and inventory, with SQL views and queries for business reporting. Built for CPSC 4620 (Database Systems) at Clemson University.
 
-Built for CPSC 4620 (Database Systems) at Clemson University.
+## Overview
 
-## Business Questions This Database Answers
+A console-based ordering system backed by a relational MySQL database. Java connects to MySQL through JDBC, and reporting logic lives in SQL views instead of application code.
 
-- Which order types (dine-in, pickup, delivery) are the most profitable?
-- Which pizzas generate the most profit?
-- Which toppings are the most popular?
+## Features
 
-## Key Findings
+- Customer management
+- Pizza ordering with sizes, crusts, toppings, and calculated pricing
+- Dine-in, pickup, and delivery orders
+- Order-level and pizza-level discounts
+- Topping inventory tracking
+- Order completion tracking
+- Profit and topping-popularity reports through SQL views
+- Business analytics queries (`analytics/business_questions.sql`)
 
-*Based on the sample data in this project.*
+## Tech Stack
 
-- **Profit by order type:** Delivery orders earned the most total profit ($99.39 across two months), followed by pickup ($90.34) and dine-in ($44.34). Across all order types, the business earned $234.07 in profit on $301.18 in order revenue.
-- **Profit by pizza:** Original-crust pizzas were the most profitable, led by the Large Original ($69.48, Jan 2025) and the XLarge Original ($68.80, Feb 2025). The Small Original was the least profitable at $5.53.
-- **Topping popularity:** Pepperoni and Regular Cheese tied as the most-used toppings (10 each), followed by Four Cheese Blend (7). Jalapenos were never ordered (0), which could flag them as a candidate to drop from the menu or promote.
+Java, MySQL 8, JDBC (MySQL Connector/J 9.6.0), SQL, HTML/CSS/JavaScript (dashboard prototype)
 
-## Database Design
+## Getting Started
 
-The database is organized around customers, orders, pizzas, toppings, discounts, pricing, and inventory. It uses primary and foreign keys to keep data consistent across tables, and supports pickup, delivery, and dine-in orders.
+### Prerequisites
+- JDK 
+- MySQL 8.0 or newer
 
-## SQL Highlights
-
-- Relational design with primary and foreign keys
-- Joins and aggregations across multiple tables
-- Reporting views: `profitbyordertype`, `profitbypizza`, `toppingpopularity`
-- Inventory and order data management
-
-Run the views yourself:
-
-```sql
-SELECT * FROM profitbyordertype;
-SELECT * FROM profitbypizza;
-SELECT * FROM toppingpopularity;
+### 1. Create and load the database
+```bash
+mysql -u root -p -e "CREATE DATABASE PizzaDB;"
+mysql -u root -p PizzaDB < database/PizzaDB_portfolio.sql
 ```
 
-## Repository Structure
+### 2. Configure the connection (optional)
+The defaults are user `root`, an empty password, and database `PizzaDB`. To override:
+```bash
+export PIZZA_DB_USER="your_user"
+export PIZZA_DB_PASSWORD="your_password"
+export PIZZA_DB_NAME="PizzaDB"
+```
+
+### 3. Compile and run
+```bash
+javac -cp "lib/mysql-connector-j-9.6.0.jar" -d out src/cpsc4620/*.java
+java -cp "out:lib/mysql-connector-j-9.6.0.jar" cpsc4620.Menu
+```
+On Windows, use `;` instead of `:` in the classpath.
+
+## Project Structure
 
 ```
-cpsc4620-pizza-database/
-├── analytics/     # SQL analytics and reporting queries
+├── analytics/
+│   └── business_questions.sql    Queries answering five business questions
 ├── database/
-│   ├── PizzaDB.sql             # Original project database dump
-│   └── PizzaDB_portfolio.sql   # Cleaned, portfolio-ready database script
-├── lib/                        # MySQL JDBC connector
-├── src/cpsc4620/               # Java application (JDBC)
-├── ui/                         # Demo user interface (AI-assisted)
-├── .gitignore
+│   ├── PizzaDB.sql               Original database dump
+│   └── PizzaDB_portfolio.sql     Same schema and data, with view definers removed so it imports on any MySQL account
+├── lib/                          MySQL Connector/J
+├── src/cpsc4620/                 Java source (Menu.java is the course-provided console front end)
+├── ui/                           Dashboard prototype (HTML, CSS, Chart.js)
 └── README.md
 ```
 
-## How to Run It
+## Database Design
 
-1. Install MySQL and create a database: `CREATE DATABASE pizzadb;`
-2. Load the database: `mysql -u YOUR_USERNAME -p pizzadb < database/PizzaDB_portfolio.sql`
-3. Run the queries in the `analytics/` folder, or query the views listed above.
+12 tables: `customer`, `ordertable`, `pickup`, `delivery`, `dinein`, `pizza`, `topping`, `pizza_topping`, `discount`, `order_discount`, `pizza_discount`, `baseprice`. The three order types (pickup, delivery, dine-in) are modeled as subtype tables of `ordertable`, and `pizza_topping` resolves the many-to-many relationship between pizzas and toppings.
 
-## Technologies
+ER Diagram coming soon 
 
-MySQL, SQL, Java, JDBC, Git & GitHub
+### Reporting Views
 
-## What I Did and Didn't Build
+| View | Reports |
+|------|---------|
+| `profitbyordertype` | Revenue, cost, and profit by order type and month, with a grand total row |
+| `profitbypizza` | Profit by pizza size and crust type per month |
+| `toppingpopularity` | How many times each topping has been used |
 
-- **Written by me:** database schema, SQL queries, reporting views, analytics
-- **AI-assisted:** the UI in the `ui/` folder was generated with ChatGPT to demo the data
-- **Academic context:** built for Clemson's CPSC 4620. Original course materials are not included.
+`analytics/business_questions.sql` builds on these views to answer five questions: profit by order type, profit by size and crust, topping popularity, inventory alerts (current vs. minimum stock), and overall KPIs (revenue, cost, profit, average order value).
 
-## Testing Approach
+## Screenshots
 
-With a QA background, I validated the database by checking expected vs. actual results across different order and customer scenarios, including edge cases like discounts and inventory changes.
+coming soon 
+
+## What I Learned
+
+- Designing a relational schema with primary keys, foreign keys, and many-to-many relationships
+- Writing joins, aggregations, and views for reporting
+- Connecting a Java application to MySQL with JDBC
+- Testing database-backed behavior from a QA perspective: checking expected versus actual results across order types, discounts, and inventory updates
+
+## Academic Note
+
+Developed for CPSC 4620 at Clemson University. Assignment instructions and grading materials are not included. `Menu.java` was provided by the course.
